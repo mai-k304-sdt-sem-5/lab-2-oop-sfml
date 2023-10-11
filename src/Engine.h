@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "Bob.h"
+#include "Player.h"
  
 using namespace sf;
  
@@ -14,7 +14,7 @@ private:
     Texture m_BackgroundTexture;
  
     // Экземпляр Боба
-    Bob m_Bob;
+    Player player;
  
     void input();
     void update(float dtAsSeconds);
