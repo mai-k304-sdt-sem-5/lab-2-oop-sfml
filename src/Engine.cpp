@@ -1,5 +1,6 @@
 #include "Engine.h"
-#include "Block.h"
+
+Player* players[PLAYERS_COUNT]; // Массив игроков
  
 Engine::Engine() {
     // Получаем разрешение экрана, создаем окно SFML и View
@@ -17,23 +18,17 @@ Engine::Engine() {
  
     // Связываем спрайт и текстуру
     m_BackgroundSprite.setTexture(m_BackgroundTexture);
-
-    Block blockList[3][3];
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            blockList[i][j].setM_Poition(i*32, j*32);
-        }
-    }
- 
 }
  
 void Engine::start() {
-    // Расчет времени
-    Clock clock;
+    Clock clock; // Расчет времени
+
+    Player player1(Vector2f(0, 0), "bob.png", 400);
+    players[0] = &player1;
+    player = players[0];
  
     while (m_Window.isOpen()) {
-        // Перезапускаем таймер и записываем отмеренное время в dt
-        Time dt = clock.restart();
+        Time dt = clock.restart(); // Перезапускаем таймер и записываем отмеренное время в dt
  
         float dtAsSeconds = dt.asSeconds();
  
@@ -43,54 +38,26 @@ void Engine::start() {
     }
 }
 
-void Engine::input() {
-    // Обрабатываем нажатие Escape
-    if (Keyboard::isKeyPressed(Keyboard::Escape)) {
-        m_Window.close();
-    }
- 
+void Engine::input() { // Обработка ввода
+    if (Keyboard::isKeyPressed(Keyboard::Escape)) { m_Window.close(); } // Обрабатываем нажатие Escape
     // Обрабатываем нажатие клавиш движения
-    if (Keyboard::isKeyPressed(Keyboard::A)) {
-        player.moveLeft();
-    } else {
-        player.stopLeft();
-    }
- 
-    if (Keyboard::isKeyPressed(Keyboard::D)) {
-        player.moveRight();
-    } else {
-        player.stopRight();
-    }   
-
-    if (Keyboard::isKeyPressed(Keyboard::W)) {
-        player.moveUp();
-    } else {
-        player.stopUp();
-    }
- 
-    if (Keyboard::isKeyPressed(Keyboard::S)) {
-        player.moveDown();
-    } else {
-        player.stopDown();
-    }                     
- 
+    if (Keyboard::isKeyPressed(Keyboard::A)) { player->moveLeft(); }
+    else { player->stopLeft(); } // Движение влево 
+    if (Keyboard::isKeyPressed(Keyboard::D)) { player->moveRight(); }
+    else { player->stopRight(); } // Движение вправо
+    if (Keyboard::isKeyPressed(Keyboard::W)) { player->moveUp(); }
+    else { player->stopUp(); } // Движение вверх
+    if (Keyboard::isKeyPressed(Keyboard::S)) { player->moveDown(); }
+    else { player->stopDown(); } // Движение вниз                 
 }
 
-using namespace sf;
-
-void Engine::update(float dtAsSeconds) {
-    player.update(dtAsSeconds);
+void Engine::update(float dtAsSeconds) { // Функция обновления
+    player->update(dtAsSeconds); // Обновление игрока
 }
 
-void Engine::draw() {
-    // Стираем предыдущий кадр
-    m_Window.clear(Color::White);
- 
-    // Отрисовываем фон
-    m_Window.draw(m_BackgroundSprite);
-    // И Боба
-    m_Window.draw(player.getSprite());
- 
-    // Отображаем все, что нарисовали
-    m_Window.display();
+void Engine::draw() { // Функция отрисовки
+    m_Window.clear(Color::White); // Стираем предыдущий кадр
+    m_Window.draw(m_BackgroundSprite); // Отрисовываем фон
+    m_Window.draw(player->getSprite()); // Отрисовываем игрока
+    m_Window.display(); // Отображаем все, что нарисовали
 }
