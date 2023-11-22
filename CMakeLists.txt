@@ -7,7 +7,9 @@ set(CMAKE_CXX_STANDARD 11) # Версия стандарта C++
 set(SOURCE_EXE src/main.cpp) # Установка переменной со списком исходников для исполняемого файла
 
 set(SOURCE_LIB src/Object.cpp
+               src/Entity.cpp
                src/Player.cpp
+               src/Item.cpp
                src/Engine.cpp
 ) # Установка переменной со списком исходников для библиотеки
 

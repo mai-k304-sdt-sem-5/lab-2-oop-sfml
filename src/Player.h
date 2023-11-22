@@ -1,17 +1,21 @@
-#include "Object.h"
+#ifndef PLAYER_H
+#define PLAYER_H
+#include "Entity.h"
 
-class Player : public Object {
+class Player : public Entity {
 private:
-    float m_Speed; // Скорость игрока
     // Логические переменные для отслеживания направления движения
     bool m_LeftPressed;
     bool m_RightPressed;
     bool m_UpPressed;
     bool m_DownPressed;
+
+    int health; // Здоровье игрока
+    int regeneration; // Скорость регенирации
+    int maxForce = 30;
 public:
-    Player(sf::Vector2f init_m_Position, const std::string& init_Texture, float init_m_Speed);
-    void set_m_Speed(float init_m_Speed); // Установить скорость
-    float get_m_Speed(); // Вернуть скорость
+    Player(const std::string& _texture, float _speed, int _regeneration, int _id);
+    //~Player();
 
     // Функции движения
     void moveLeft();
@@ -25,6 +29,19 @@ public:
     void stopUp();
     void stopDown();
 
-    // Эта функция будет вызываться на каждый кадр
-    void update(float elapsedTime);
+    int getHealth(); // Вернуть здоровье
+    void setHealth(int _health); // Установить здоровье
+
+    int getRegeneration(); // Вернуть регенирацию
+    void setRegeneration(int _regeneration); // Установить регенирацию
+
+    virtual void update(float elapsedTime); // Эта функция будет вызываться на каждый кадр
 };
+
+class Player_1 : public Player { public: Player_1(); };
+
+class Player_2 : public Player { public: Player_2(); };
+
+class Player_3 : public Player { public: Player_3(); };
+
+#endif
